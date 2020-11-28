@@ -17,7 +17,7 @@ variable "profile" {
 # providers
 
 provider "aws" {
-  region = var.region
+  region  = var.region
   profile = var.profile
 }
 
@@ -35,10 +35,10 @@ resource "aws_vpc" "web_vpc" {
 
 # 2. subnet web_pub
 resource "aws_subnet" "web_pub" {
-  vpc_id     = "${aws_vpc.web_vpc.id}"
-  cidr_block = "10.1.254.0/24"
+  vpc_id            = "${aws_vpc.web_vpc.id}"
+  cidr_block        = "10.1.254.0/24"
   availability_zone = "${var.az}"
-  
+
   tags = {
     Name = "web-pub"
   }
