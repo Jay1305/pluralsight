@@ -75,7 +75,7 @@ resource "aws_eip" "pub_ip" {
 # 4. Instance
 
 resource "aws_instance" "web" {
-  depends_on    = [aws_network_interface.www1_eth0]
+  depends_on    = [aws_network_interface.www1_eth0, aws_eip.pub_ip]
   ami           = "${var.image_ami_id}"
   instance_type = "t2.micro"
   #subnet_id     = "${aws_subnet.web_pub.id}"
