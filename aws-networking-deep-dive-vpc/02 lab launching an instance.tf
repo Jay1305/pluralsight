@@ -90,3 +90,8 @@ resource "aws_instance" "web" {
     Name = "www1"
   }
 }
+
+output "www1_public_ip" {
+  depends_on = [ aws_eip.pub_ip  ]
+  value = "${aws_eip.pub_ip.public_ip}"
+}
