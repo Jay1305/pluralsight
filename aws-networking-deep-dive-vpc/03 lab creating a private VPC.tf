@@ -95,7 +95,7 @@ resource "aws_instance" "db1" {
   subnet_id       = "${aws_subnet.database.id}"
   instance_type   = "t2.micro"
   private_ip      = "10.2.2.41"
-  security_groups = ["${aws_security_group.database_sg.id}"]
+  vpc_security_group_ids = [ "${aws_security_group.database_sg.id}" ] # Fix for #2 for recreating db1 instance
   key_name        = "${var.key_name}"
   tags = {
     Name = "db1"

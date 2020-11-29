@@ -57,15 +57,20 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_route_table" "web_vpc_rt" {
   vpc_id = "${aws_vpc.web_vpc.id}"
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.igw.id}"
-  }
-
   tags = {
     Name = "web-pub"
   }
 }
+
+# Separate out the route from web_vpc_rt route table so that it will fix bug #2
+
+resource "aws_route" "web_vpc_rt_to_internet" {
+  route_table_id            = "${aws_route_table.web_vpc_rt.id}"
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id = "${aws_internet_gateway.igw.id}"
+  depends_on                = ["aws_route_table.web_vpc_rt"]
+}
+
 
 # 5. Subnet association
 resource "aws_route_table_association" "web_pub_rt_association_with_web_pub_subnet" {
