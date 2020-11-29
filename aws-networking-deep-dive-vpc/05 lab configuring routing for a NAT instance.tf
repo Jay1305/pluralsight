@@ -14,8 +14,8 @@ resource "aws_internet_gateway" "shared_vpc_gw" {
 
 # 2. Subnet nat-pub
 resource "aws_subnet" "nat_pub" {
-  vpc_id     = "${aws_vpc.shared_vpc.id}"
-  cidr_block = "10.2.254.0/24"
+  vpc_id            = "${aws_vpc.shared_vpc.id}"
+  cidr_block        = "10.2.254.0/24"
   availability_zone = "${var.az}"
   tags = {
     Name = "nat-pub"
@@ -33,10 +33,10 @@ resource "aws_route_table" "nat_pub_rt" {
 
 # 4. Route to internet for nat-pub rt
 resource "aws_route" "nat_pub_rt_to_internet" {
-  route_table_id            = "${aws_route_table.nat_pub_rt.id}"
-  destination_cidr_block    = "0.0.0.0/0"
-  gateway_id = "${aws_internet_gateway.shared_vpc_gw.id}"
-  depends_on                = [aws_route_table.nat_pub_rt]
+  route_table_id         = "${aws_route_table.nat_pub_rt.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${aws_internet_gateway.shared_vpc_gw.id}"
+  depends_on             = [aws_route_table.nat_pub_rt]
 }
 
 # 5. nat_pub_rt route table association with subnet
